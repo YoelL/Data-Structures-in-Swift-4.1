@@ -1,6 +1,6 @@
 import Foundation
 
-public class Vertex{
+public class Vertex {
     
     var key: String?
     var neighbors: Array<Edge>
