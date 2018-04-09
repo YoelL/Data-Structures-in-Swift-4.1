@@ -3,7 +3,7 @@
     <pages>
         <page name='Table Of Contents'/>
         <page name='Stacks'/>
-        <page name='Linked List'/>
+        <page name='LinkedList'/>
         <page name='Queue'/>
     </pages>
 </playground>

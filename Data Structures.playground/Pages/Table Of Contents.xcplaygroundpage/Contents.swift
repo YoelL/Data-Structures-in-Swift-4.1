@@ -6,6 +6,8 @@
 
 * [Stack](Stack)
 
+* [Linked List](LinkedList)
+
 # Data Structures Overview
 
 */
