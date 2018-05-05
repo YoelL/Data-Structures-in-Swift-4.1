@@ -8,6 +8,10 @@
 
 * [Linked List](LinkedList)
 
+* [Queue](Queue)
+
+* [Hash Table](HashTable)
+
 # Data Structures Overview
 
 */

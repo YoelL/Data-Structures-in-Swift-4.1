@@ -2,60 +2,78 @@
 
 import Foundation
 
-public class Node {
+public class Node<Value> {
 	
-	var value:String
+	var value:Value
 	var next:Node?
 	weak var previous:Node?
 	
-	init(value:String) {
+//	init(value:Value) {
+//		self.value = value
+//	}
+	
+	public init(value: Value, next: Node? = nil) {
 		self.value = value
+		self.next = next
 	}
+	
 }
 
 
-public class LinkedList {
+public class LinkedList<Value> {
 	
-	fileprivate var head: Node?
-	private var tail: Node?
+	fileprivate var head: Node<Value>?
+	private var tail: Node<Value>?
+	
+	public init() {}
 	
 	public var isEmpty: Bool {
 		return head == nil
 	}
 	
-	public var first: Node? {
+	public var first: Node<Value>? {
 		return head
 	}
 	
-	public var last: Node? {
+	public var last: Node<Value>? {
 		return tail
 	}
 	
-	
-	public func append(value: String) {
+	//push: Adds a value at the front of the list.
+	public  func push(_ value:Value){
 		
-		let newNode = Node(value: value)
-	
-		if let tailNode = tail {
-			newNode.previous = tailNode
-			tailNode.next = newNode
-		}else{
-			head = newNode
+		head = Node(value: value, next: head)
+		
+		if tail == nil {
+			tail = head
 		}
-		
-		tail = newNode
 	}
 	
-	public func nodeAt(index:Int)->Node? {
+	
+	//append: Adds a value at the end of the list.
+	public  func append(_ value: Value) {
+
+		guard !isEmpty else { push(value) ; return }
 		
+		tail!.next = Node(value: value)
+		
+		tail = tail!.next
+	}
+	
+	
+	//insert(after:): Adds a value after a particular node of the list.
+	
+	
+	public func nodeAt(index:Int)->Node<Value>? {
+
 		if index >= 0 {
 			var i = index
 			var node = head
-			
+
 			while node != nil {
-				
+
 				if i == 0 { return node }
-				
+
 					i -= 1
 					node = node!.next
 			}
@@ -63,14 +81,29 @@ public class LinkedList {
 		return nil
 	}
 	
-	public func removeAll() {
+	public  func removeAll() {
 		head = nil
 		tail = nil
 	}
-
-
-
+	
+	
+	// 1
+	@discardableResult
+	public func insert(_ value:Value ,after node: Node<Value>) -> Node<Value> {
+		// 2
+		guard tail !== node else {
+			append(value)
+			return tail!
+		}
+		// 3
+		node.next = Node(value: value, next: node.next)
+		return node.next!
+	}
+	
+	
 }
+
+
 
 extension LinkedList: CustomStringConvertible {
 	
@@ -88,21 +121,33 @@ extension LinkedList: CustomStringConvertible {
 
 
 
+var list = LinkedList<Int>()
+list.push(3)
+list.push(2)
+list.push(1)
 
-let ll = LinkedList()
-
-	ll.append(value: "First Item")
-	ll.append(value: "Second Item")
-	ll.append(value: "Third Item")
-	ll.append(value: "Fourth Item")
-
-
-print(ll)
-
-let node = ll.nodeAt(index: 3)
-print("\(node?.value ?? "Unknow")")
+print(list)
 
 
+var listA = LinkedList<Int>()
+listA.append(1)
+listA.append(2)
+listA.append(3)
+
+print(listA)
+
+var listP = LinkedList<Int>()
+listP.push(3)
+listP.push(2)
+listP.push(1)
+
+print("Before inserting: \(listP)")
+
+var middleNode = listP.nodeAt(index: 1)
+for _ in 1...5 {
+	middleNode = listP.insert( 30, after: middleNode!)
+}
+print("After inserting 30 five times: \(listP)")
 
 
 
